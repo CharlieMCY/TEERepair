@@ -1,0 +1,9 @@
+| col0 | col1 | col2 | col3 |           col4           |
++------+------+------+------+--------------------------+
+| 1    | 0    | 0    | 0    | input                    |
+| 7    | 3    | 0    | 0    | shared_memory            |
+| 3    | 7    | 7    | 7    | output                   |
+| 0    | 5    | 0    | 0    | input                    |
+| 0    | 0    | 7    | 0    | input                    |
+| 0    | 0    | 0    | 5    | input                    |
+| 0    | 0    | 0    | 0    | TA_OpenSessionEntryPoint |

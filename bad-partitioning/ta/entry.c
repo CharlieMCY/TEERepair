@@ -276,8 +276,8 @@ void input_p2(int a, int b, char *buf1, int size1, char *buf2, int size2, char *
 
 	tmp_arr2[b - 8] = 43;
 	
-	int *param1 = buf1;
-	int value1 = param1[15];
+	char *param1 = buf1;
+	char value1 = param1[15];
 	// int value2 = param1[25 - size1];
 
 	memcpy(buf2, str, 2048);
@@ -309,8 +309,8 @@ void input_p1(int a, int b, char *buf1, int size1, char *buf2, int size2, char *
 
 	tmp_arr2[b - 7] = 43;
 	
-	int *param1 = buf1;
-	int value1 = param1[13];
+	char *param1 = buf1;
+	char value1 = param1[13];
 	// int value2 = param1[20 - size1];
 
 	memcpy(buf2, str, 1024);
@@ -342,8 +342,8 @@ void input_p(TEE_Param params[4])
 
 	tmp_arr2[params[0].value.b] = 43;
 	
-	int *param1 = params[1].memref.buffer;
-	int value1 = param1[23];
+	char *param1 = params[1].memref.buffer;
+	char value1 = param1[23];
 
 	memcpy(params[2].memref.buffer, str, 4096);
 
@@ -406,9 +406,7 @@ void shared_memory_p2(TEE_Param params[4])
 
 	int value = buf[10];
 
-	if (!TEE_MemCompare(params[2].memref.buffer,
-						"123456",
-				   		params[2].memref.size)) {
+	if (!TEE_MemCompare(params[2].memref.buffer, "123456", params[2].memref.size)) {
 		IMSG("Pass!\n");
 	}
 
@@ -432,9 +430,7 @@ void shared_memory_p1(TEE_Param params[4])
 
 	int value = buf[10];
 
-	if (!TEE_MemCompare(params[1].memref.buffer,
-						"123456",
-				   		params[1].memref.size)) {
+	if (!TEE_MemCompare(params[1].memref.buffer, "123456", params[1].memref.size)) {
 		IMSG("Pass!\n");
 	}
 
@@ -485,9 +481,7 @@ static TEE_Result shared_memory(uint32_t param_types,
 
 	int value = buf[10];
 
-	if (!TEE_MemCompare(params[0].memref.buffer,
-						"123456",
-				   		params[0].memref.size)) {
+	if (!TEE_MemCompare(params[0].memref.buffer, "123456", params[0].memref.size)) {
 		IMSG("Pass!\n");
 	}
 

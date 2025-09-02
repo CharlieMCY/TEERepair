@@ -204,6 +204,15 @@ void output_p1(TEE_Param params[4])
 	output_p2(params);
 }
 
+void output_p(char *buf1, int size1, char *buf2, int size2)
+{
+	char key3[1000] = "01234567";
+	char vi3[1000] = "0abcde";
+
+	TEE_MemMove(buf1, key3, strlen(key3));
+	snprintf(buf2, size2, "%s-%s", key3, vi3);
+}
+
 static TEE_Result output(uint32_t param_types,
 	TEE_Param params[4])
 {
@@ -266,6 +275,7 @@ static TEE_Result output(uint32_t param_types,
 void input_p2(int a, int b, char *buf1, int size1, char *buf2, int size2, char *buf3, int size3)
 {
 	char *str = TEE_Malloc(2048, 0);
+	char *str2 = TEE_Malloc(2050, 0);
 
 	int tmp_arr1[30] = {0};
 	int tmp_arr2[29] = {0};
@@ -279,6 +289,10 @@ void input_p2(int a, int b, char *buf1, int size1, char *buf2, int size2, char *
 	char *param1 = buf1;
 	char value1 = param1[15];
 	// int value2 = param1[25 - size1];
+
+	for (int i = 0; i < size2; i++) {
+		str2[i] = (char *)buf2[i];
+	}
 
 	memcpy(buf2, str, 2048);
 
@@ -294,11 +308,13 @@ void input_p2(int a, int b, char *buf1, int size1, char *buf2, int size2, char *
 	TEE_MemMove(str, buf3, size3);
 
 	TEE_Free(str);
+	TEE_Free(str2);
 }
 
 void input_p1(int a, int b, char *buf1, int size1, char *buf2, int size2, char *buf3, int size3)
 {
 	char *str = TEE_Malloc(1024, 0);
+	char *str2 = TEE_Malloc(1028, 0);
 
 	int tmp_arr1[25] = {0};
 	int tmp_arr2[24] = {0};
@@ -312,6 +328,10 @@ void input_p1(int a, int b, char *buf1, int size1, char *buf2, int size2, char *
 	char *param1 = buf1;
 	char value1 = param1[13];
 	// int value2 = param1[20 - size1];
+
+	for (int i = 0; i < size2; i++) {
+		str2[i] = (char *)buf2[i];
+	}
 
 	memcpy(buf2, str, 1024);
 
@@ -327,6 +347,7 @@ void input_p1(int a, int b, char *buf1, int size1, char *buf2, int size2, char *
 	TEE_MemMove(str, buf3, size3);
 
 	TEE_Free(str);
+	TEE_Free(str2);
 
 	input_p2(a, b, buf1, size1, buf2, size2, buf3, size3);
 }
@@ -334,6 +355,7 @@ void input_p1(int a, int b, char *buf1, int size1, char *buf2, int size2, char *
 void input_p(TEE_Param params[4])
 {
 	char str[4096] = "123456";
+	char str2[4096] = {};
 
 	int tmp_arr1[100] = {0};
 	int tmp_arr2[99] = {0};
@@ -344,6 +366,10 @@ void input_p(TEE_Param params[4])
 	
 	char *param1 = params[1].memref.buffer;
 	char value1 = param1[23];
+
+	for (int i = 0; i < params[2].memref.size; i++) {
+		str2[i] = ((char *)params[2].memref.buffer)[i];
+	}
 
 	memcpy(params[2].memref.buffer, str, 4096);
 
@@ -363,6 +389,7 @@ static TEE_Result input(uint32_t param_types,
 	}
 
 	char *str = TEE_Malloc(1000, 0);
+	char *str2 = TEE_Malloc(1002, 0);
 
 	int tmp_arr1[20] = {0};
 	int tmp_arr2[19] = {0};
@@ -376,6 +403,10 @@ static TEE_Result input(uint32_t param_types,
 	int *param1 = params[1].memref.buffer;
 	int value1 = param1[10];
 	// int value2 = param1[15 - params[1].memref.size];
+
+	for (int i = 0; i < params[2].memref.size; i++) {
+		str2[i] = ((char *)params[2].memref.buffer)[i];
+	}
 
 	memcpy(params[2].memref.buffer, str, 1000);
 
@@ -391,6 +422,7 @@ static TEE_Result input(uint32_t param_types,
 	TEE_MemMove(str, params[3].memref.buffer, params[3].memref.size);
 
 	TEE_Free(str);
+	TEE_Free(str2);
 
 	input_p(params);
 
